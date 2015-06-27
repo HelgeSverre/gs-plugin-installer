@@ -108,7 +108,7 @@ function gs_plugin_installer_main()
         <thead>
         <tr>
             <th>Plugin</th>
-            <th>Author</th>
+            <th>Description</th>
             <th>Install</th>
         </tr>
         </thead>
