@@ -2,7 +2,7 @@
 /*
 Plugin Name: GS Plugin Installer
 Description: Lets you browse, install and uninstall plugins from your administration area.
-Version: 1.0.2
+Version: 1.0.3
 Author: Helge Sverre
 Author URI: https://helgesverre.com/
 */
@@ -17,7 +17,7 @@ define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.0.2',
+    '1.0.3',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -127,8 +127,7 @@ function gs_plugin_installer_main()
                 </td>
                 <td style="width:60px;">
                     <?php if (is_plugin_installed($plugin)): ?>
-                        <a class="cancel"
-                           href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
+                        <a class="cancel" href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
                     <?php else: ?>
                         <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&install=<?php echo $plugin->id ?>">Install</a>
                     <?php endif; ?>
@@ -146,7 +145,7 @@ function gs_plugin_installer_main()
 			overflow-y: hidden;
 		}
 
-		/* When hovering, show the entire description */
+		/* When hovering the table row, show the entire description */
 		tr:hover td .description {
 			height: auto;
 		}
@@ -164,7 +163,6 @@ function gs_plugin_installer_main()
 	           	]
             });
         });
-
     </script>
 <?php
 
