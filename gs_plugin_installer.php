@@ -101,7 +101,7 @@ function gs_plugin_installer_main()
 
     <h3 class="floated">Plugins</h3>
     <div class="edit-nav clearfix">
-        <a href="<?php echo $SITEURL . "admin/load.php?id=gs-plugin-installer"?>&update" title="Update">Refresh List</a>
+        <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer"?>&update" title="Update">Refresh List</a>
     </div>
 
     <table id="plugin_table" style="width: 100% !important;">
@@ -126,9 +126,9 @@ function gs_plugin_installer_main()
                 <td style="width:60px;">
                     <?php if (is_plugin_installed($plugin)): ?>
                         <a class="cancel"
-                           href="<?php echo $SITEURL . "admin/load.php?id=gs-plugin-installer" ?>&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
+                           href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
                     <?php else: ?>
-                        <a href="<?php echo $SITEURL . "admin/load.php?id=gs-plugin-installer" ?>&install=<?php echo $plugin->id ?>">Install</a>
+                        <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&install=<?php echo $plugin->id ?>">Install</a>
                     <?php endif; ?>
                 </td>
             </tr>
