@@ -21,6 +21,8 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 
 ## Install the plugin
 
+[Download here](http://get-simple.info/extend/plugin/gs-plugin-installer/955/)
+
 ```
 1. download the gs-plugin-installer.zip file
 2. Unzip it into /plugins
