@@ -115,7 +115,7 @@ function gs_plugin_installer_main()
         <tbody>
         <?php foreach ($plugins as $index => $plugin): ?>
             <tr id="tr-<?php echo $index ?>">
-                <td style="width:150px"><a href="<?php echo $plugin->path?>"><b><?php echo $plugin->name ?></b></a></td>
+                <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
                 <td><span>
                     <?php echo trim(substr(strip_tags($plugin->description), 0, 120)) ?>...
                     <br>
