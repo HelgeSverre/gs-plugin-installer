@@ -46,6 +46,7 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 - Enable a "read more" feature for descriptions of plugins with a hide/show dropdown feature, right now descriptions are capped at 120 characters.
 - Refactor the script to be more object oriented and structured.
 - Add more flexibility through plugin settings so users can control the behaviour of the script and caching functionality.
+- "Last Updated" ordering
 
 
 ### Reporting bugs
