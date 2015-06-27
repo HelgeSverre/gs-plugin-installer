@@ -107,6 +107,7 @@ function gs_plugin_installer_main()
     <table id="plugin_table" class="highlight" style="width: 100% !important;">
         <thead>
         <tr>
+            <th>Updated</th>
             <th>Plugin</th>
             <th>Description</th>
             <th>Install</th>
@@ -115,6 +116,7 @@ function gs_plugin_installer_main()
         <tbody>
         <?php foreach ($plugins as $index => $plugin): ?>
             <tr id="tr-<?php echo $index ?>">
+                <td><?php $plugin->updated_date ?></td>
                 <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
                 <td><span>
                     <?php echo trim(substr(strip_tags($plugin->description), 0, 120)) ?>...
@@ -138,7 +140,13 @@ function gs_plugin_installer_main()
 
     <script>
         $(document).ready(function () {
-            $('#plugin_table').DataTable();
+            $('#plugin_table').DataTable({
+            	{
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": true
+           	 }
+            });
         });
     </script>
 <?php
