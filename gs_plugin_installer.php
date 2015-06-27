@@ -104,7 +104,7 @@ function gs_plugin_installer_main()
         <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer"?>&update" title="Update">Refresh List</a>
     </div>
 
-    <table id="plugin_table" style="width: 100% !important;">
+    <table id="plugin_table" class="highlight" style="width: 100% !important;">
         <thead>
         <tr>
             <th>Plugin</th>
