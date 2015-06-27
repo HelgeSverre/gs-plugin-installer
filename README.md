@@ -48,4 +48,4 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 
 ### Reporting bugs
 
-Please report bugs in the support thread [here]() or create a [GitHub Issue](https://github.com/HelgeSverre/gs-plugin-installer/issues).
+Please report bugs in the support thread [here](http://get-simple.info/forums/showthread.php?tid=7370) or create a [GitHub Issue](https://github.com/HelgeSverre/gs-plugin-installer/issues).
