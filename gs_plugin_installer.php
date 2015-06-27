@@ -231,7 +231,7 @@ function fetch_plugins_from_api()
     foreach ($items as $item) {
         if (isset($item->category) && $item->category == "Plugin") {
 
-            // If the plugin does not have a main fail, it is not installable with this plugin, so ignore it.
+            // If the plugin does not have a main file, it is not installable with this plugin, so ignore it.
             if ($item->filename_id !== "") {
 
                 // Put the plugin in the plugins array
