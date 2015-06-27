@@ -104,7 +104,7 @@ function gs_plugin_installer_main()
         <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer"?>&update" title="Update">Refresh List</a>
     </div>
 
-    <table id="plugin_table" class="highlight" style="width: 100% !important;">
+    <table id="plugin_table" class="highlight">
         <thead>
         <tr>
             <th>Updated</th>
@@ -118,8 +118,8 @@ function gs_plugin_installer_main()
             <tr id="tr-<?php echo $index ?>">
                 <td><?php $plugin->updated_date ?></td>
                 <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
-                <td><span>
-                    <?php echo trim(substr(strip_tags($plugin->description), 0, 120)) ?>...
+                <td><span class="description">
+                    <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
                     <br>
                     <b>Version <?php echo $plugin->version ?></b>
                         — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
@@ -138,16 +138,33 @@ function gs_plugin_installer_main()
         </tbody>
     </table>
 
+	<style>
+		.description {
+			display:block;
+			height: 100px;
+			min-height: 100px; /* so when we are hovering the description wont shrink */
+			overflow-y: hidden;
+		}
+
+		/* When hovering, show the entire description */
+		tr:hover td .description {
+			height: auto;
+		}
+	</style>
+
     <script>
         $(document).ready(function () {
             $('#plugin_table').DataTable({
-            	{
-                "targets": [ 0 ],
-                "visible": false,
-                "searchable": true
-           	 }
+            	 "columnDefs": [
+	            	 {
+		                "targets": [ 0 ],
+		                "visible": false,
+		                "searchable": true
+		           	 }
+	           	]
             });
         });
+
     </script>
 <?php
 
