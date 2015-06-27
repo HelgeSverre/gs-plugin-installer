@@ -117,7 +117,7 @@ function gs_plugin_installer_main()
             <tr id="tr-<?php echo $index ?>">
                 <td style="width:150px"><a href="<?php echo $plugin->path?>"><b><?php echo $plugin->name ?></b></a></td>
                 <td><span>
-                    <?php echo trim(substr($plugin->description, 0, 120)) ?>...
+                    <?php echo trim(substr(strip_tags($plugin->description), 0, 120)) ?>...
                     <br>
                     <b>Version <?php echo $plugin->version ?></b>
                         — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
