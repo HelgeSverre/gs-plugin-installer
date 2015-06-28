@@ -139,8 +139,8 @@ function gs_plugin_installer_main()
 	<style>
 		#plugin_table .description {
 			display:block;
-			min-height: 100px; /* so when we are hovering the description wont shrink */
-			max-height: 100px;
+			min-height: 45px; /* so when we are hovering the description wont shrink */
+			max-height: 45px;
 			overflow-y: hidden;
 			transition: max-height .8s;
 		}
