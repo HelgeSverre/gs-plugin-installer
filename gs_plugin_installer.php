@@ -7,6 +7,10 @@ Author: Helge Sverre
 Author URI: https://helgesverre.com/
 */
 
+
+error_reporting(E_ALL);
+ini_set("display_errors", "on");
+
 // Gets the plugin id, which is pretty much just the filename without the extension
 $thisfile = basename(__FILE__, ".php");
 
@@ -230,6 +234,15 @@ function get_plugins()
 function save_to_cache($file, $data)
 {
     $data = json_encode($data);
+
+    $cache_directory = dirname($file);
+
+	// If the folder does not exist, create it
+    if (!file_exists($cache_directory)) {
+    	mkdir($cache_directory);
+    	chmod($cache_directory, 0755);
+    }
+
     file_put_contents($file, $data);
 }
 
