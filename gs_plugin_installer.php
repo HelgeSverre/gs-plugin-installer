@@ -2,7 +2,7 @@
 /*
 Plugin Name: GS Plugin Installer
 Description: Lets you browse, install and uninstall plugins from your administration area.
-Version: 1.0.3
+Version: 1.0.4
 Author: Helge Sverre
 Author URI: https://helgesverre.com/
 */
@@ -17,7 +17,7 @@ define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.0.3',
+    '1.0.4',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
