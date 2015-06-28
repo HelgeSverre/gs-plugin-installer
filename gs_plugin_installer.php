@@ -118,12 +118,11 @@ function gs_plugin_installer_main()
             <tr id="tr-<?php echo $index ?>">
                 <td><?php $plugin->updated_date ?></td>
                 <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
-                <td><span class="description">
-                    <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
-                    <br>
+                <td>
+                    <div class="description"><?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?></div>
                     <b>Version <?php echo $plugin->version ?></b>
                         — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
-                    </span>
+                    
                 </td>
                 <td style="width:60px;">
                     <?php if (is_plugin_installed($plugin)): ?>
@@ -138,16 +137,18 @@ function gs_plugin_installer_main()
     </table>
 
 	<style>
-		.description {
+		#plugin_table .description {
 			display:block;
-			height: 100px;
 			min-height: 100px; /* so when we are hovering the description wont shrink */
+			max-height: 100px;
 			overflow-y: hidden;
+			transition: max-height .8s;
 		}
 
 		/* When hovering the table row, show the entire description */
-		tr:hover td .description {
-			height: auto;
+		#plugin_table tr:hover td .description {
+			max-height: 5000px; /* Workaround for transition issues with height: auto; */
+			transition: max-height .8s;
 		}
 	</style>
 
@@ -159,7 +160,12 @@ function gs_plugin_installer_main()
 		                "targets": [ 0 ],
 		                "visible": false,
 		                "searchable": true
-		           	 }
+		           	 },
+		           	 {
+		                "targets": [ 3 ],
+		                "visible": true,
+		                "searchable": false // exlude "install" column from search
+		           	 },
 	           	]
             });
         });
