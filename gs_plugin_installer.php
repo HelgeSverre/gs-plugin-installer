@@ -2,7 +2,7 @@
 /*
 Plugin Name: GS Plugin Installer
 Description: Lets you browse, install and uninstall plugins from your administration area.
-Version: 1.0.4
+Version: 1.0.5
 Author: Helge Sverre
 Author URI: https://helgesverre.com/
 */
@@ -18,14 +18,13 @@ define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.0.4',
+    '1.0.5',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
     'plugins',
     'gs_plugin_installer_main'
 );
-
 
 // Enque the datatables js from CDN
 register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
@@ -313,7 +312,7 @@ function query_api($url)
         // Fallback to file_get_contents
         $json = file_get_contents($url);
     }
-    
+
     $data = json_decode($json);
 
     return $data;
@@ -399,28 +398,30 @@ function is_plugin_installed($plugin)
  */
 function uninstall_plugin($id)
 {
-    // We need to get the main plugin file name.
-    $plugin = query_api("http://get-simple.info/api/extend/?id=" . $id);
+    if (is_numeric($id)) {
+        // We need to get the main plugin file name.
+        $plugin = query_api("http://get-simple.info/api/extend/?id=" . $id);
 
-    // This is assuming that the plugin keeps the GetSimple naming convention
-    $plugin_folder = GSPLUGINPATH . "/" . trim($plugin->filename_id, ".php");
-    $plugin_file = GSPLUGINPATH . "/" . $plugin->filename_id;
+        // This is assuming that the plugin keeps the GetSimple naming convention
+        $plugin_folder = GSPLUGINPATH . "/" . trim($plugin->filename_id, ".php");
+        $plugin_file = GSPLUGINPATH . "/" . $plugin->filename_id;
 
 
-    // check if the plugin file exists
-    if (file_exists($plugin_file)) {
-        if (!unlink($plugin_file))
-            return false;
+        // check if the plugin file exists
+        if (file_exists($plugin_file)) {
+            if (!unlink($plugin_file))
+                return false;
+        }
+
+        // check if the plugin folder exists, this might not always be the case.
+        if (file_exists($plugin_folder)) {
+            if (!delete_directory_tree($plugin_folder))
+                return false;
+        }
+
+        // We succesfully uninstalled this plugin
+        return true;
     }
-
-    // check if the plugin folder exists, this might not always be the case.
-    if (file_exists($plugin_folder)) {
-        if (!delete_directory_tree($plugin_folder))
-            return false;
-    }
-
-    // We succesfully uninstalled this plugin
-    return true;
 }
 
 
