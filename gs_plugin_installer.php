@@ -8,9 +8,6 @@ Author URI: https://helgesverre.com/
 */
 
 
-error_reporting(E_ALL);
-ini_set("display_errors", "on");
-
 // Gets the plugin id, which is pretty much just the filename without the extension
 $thisfile = basename(__FILE__, ".php");
 
@@ -45,7 +42,6 @@ add_action('plugins-sidebar', 'createSideMenu', array($thisfile, 'Plugin Install
 // Main plugin function
 function gs_plugin_installer_main()
 {
-    global $SITEURL;
 
     if (isset($_GET["update"])) {
         delete_plugin_cache(CACHE_FILE);
@@ -105,7 +101,7 @@ function gs_plugin_installer_main()
 
     <h3 class="floated">Plugins</h3>
     <div class="edit-nav clearfix">
-        <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer"?>&update" title="Update">Refresh List</a>
+        <a href="load.php?id=gs_plugin_installer&update" title="Update">Refresh List</a>
     </div>
 
     <table id="plugin_table" class="highlight">
@@ -130,9 +126,9 @@ function gs_plugin_installer_main()
                 </td>
                 <td style="width:60px;">
                     <?php if (is_plugin_installed($plugin)): ?>
-                        <a class="cancel" href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
+                        <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
                     <?php else: ?>
-                        <a href="<?php echo $SITEURL . "admin/load.php?id=gs_plugin_installer" ?>&install=<?php echo $plugin->id ?>">Install</a>
+                        <a href="load.php?id=gs_plugin_installer&install=<?php echo $plugin->id ?>">Install</a>
                     <?php endif; ?>
                 </td>
             </tr>
