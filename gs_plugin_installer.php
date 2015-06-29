@@ -200,7 +200,7 @@ function get_plugins()
             $plugins = fetch_plugins_from_api();
 
             // Let's cache the plugin list, so we don't have to query the Extend API every time.
-            save_to_cache(CACHE_FILE, $plugins);
+            save_to_cache($plugins);
 
         } else {
             // If the cache is fresh enough, we just load the data from it instead.
@@ -212,7 +212,7 @@ function get_plugins()
         $plugins = fetch_plugins_from_api();
 
         // Then let's save it to the cache
-        save_to_cache(CACHE_FILE, $plugins);
+        save_to_cache($plugins);
     }
 
 
@@ -223,10 +223,11 @@ function get_plugins()
 
 
 /**
- * @param string $file the filepath of the cache file.
+ * Saves data to the cache file as JSON
  * @param mixed $data array to save as json
+ * @param string $file the filepath of the cache file.
  */
-function save_to_cache($file, $data)
+function save_to_cache($data, $file = CACHE_FILE)
 {
     $data = json_encode($data);
 
