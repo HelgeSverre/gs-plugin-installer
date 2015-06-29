@@ -289,7 +289,31 @@ function fetch_plugins_from_api()
  */
 function query_api($url)
 {
-    $json = file_get_contents($url);
+
+    // Check if we have access to curl
+    if (function_exists("curl_version")) {
+
+        // initialize curl
+        $ch = curl_init();
+
+        // Return the response, don't verify SSL, and pass the $url as the url.
+        curl_setopt_array($ch, array(
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => $url
+        ));
+
+        // Send the request
+        $json = curl_exec($ch);
+
+        // Close connection
+        curl_close($ch);
+
+    } else {
+        // Fallback to file_get_contents
+        $json = file_get_contents($url);
+    }
+    
     $data = json_decode($json);
 
     return $data;
