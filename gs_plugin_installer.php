@@ -121,7 +121,7 @@ function gs_plugin_installer_main()
                     <div class="description"><?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?></div>
                     <b>Version <?php echo $plugin->version ?></b>
                         — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
-                    
+
                 </td>
                 <td style="width:60px;">
                     <?php if (is_plugin_installed($plugin)): ?>
@@ -158,13 +158,13 @@ function gs_plugin_installer_main()
 	            	 {
 		                "targets": [ 0 ],
 		                "visible": false,
-		                "searchable": true
+		                "searchable": false
 		           	 },
 		           	 {
 		                "targets": [ 3 ],
 		                "visible": true,
-		                "searchable": false // exlude "install" column from search
-		           	 },
+		                "searchable": false // exclude "install" column from search
+		           	 }
 	           	]
             });
         });
@@ -204,8 +204,8 @@ function get_plugins()
 
         } else {
             // If the cache is fresh enough, we just load the data from it instead.
-            $cachedata = file_get_contents(CACHE_FILE);
-            $plugins = json_decode($cachedata);
+            $cache_data = file_get_contents(CACHE_FILE);
+            $plugins = json_decode($cache_data);
         }
     } else {
         // We have no cache file, fetch from API
