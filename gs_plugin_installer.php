@@ -2,7 +2,7 @@
 /*
 Plugin Name: GS Plugin Installer
 Description: Lets you browse, install and uninstall plugins from your administration area.
-Version: 1.0.5
+Version: 1.0.6
 Author: Helge Sverre
 Author URI: https://helgesverre.com/
 */
@@ -11,14 +11,14 @@ Author URI: https://helgesverre.com/
 // Gets the plugin id, which is pretty much just the filename without the extension
 $thisfile = basename(__FILE__, ".php");
 
-// set a constant for our plugin cache file
+// Set a constant for our plugin cache file
 define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
 
 // Register this plugin
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.0.5',
+    '1.0.6',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -26,12 +26,17 @@ register_plugin(
     'gs_plugin_installer_main'
 );
 
-// Enque the datatables js from CDN
+// Queue the datatables js from CDN
 register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
 queue_script('datatables_js', GSBACK);
+queue_script('gs_plugin_installer_js', GSBACK);
 
-// Enque the datatables css from CDN
+
+// Queue the datatables css from CDN
 register_style('datatables_css', 'http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1');
+queue_style('gs_plugin_installer_css', GSBACK);
 queue_style('datatables_css', GSBACK);
 
 // add a link in the admin tab 'plugins'
@@ -55,13 +60,19 @@ function gs_plugin_installer_main()
     }
 
 
+    if (isset($_POST["install"])) {
+        $plugin_ids = $_POST["plugins"];
+        $installed = 0;
 
-    if (isset($_GET["install"])) {
-        // PLUGIN INSTALLATION
-        //----------------------------------------------------------------------------------------------------------------------
-        $plugin_id = $_GET["install"];
-        $installed = install_plugin($plugin_id);
-        $install_msg = ($installed ? "Plugin installed sucesfully" : "Plugin installation failed");
+        if (count($plugin_ids)) {
+            foreach($plugin_ids as $plugin_id) {
+                if(install_plugin($plugin_id)) {
+                    $installed++;
+                }
+            }
+        }
+
+        $install_msg = ($installed ? $installed . " plugins installed successfully" : "Plugin installation(s) failed");
 
         ?>
         <script>
@@ -74,12 +85,20 @@ function gs_plugin_installer_main()
     <?php
     }
 
-    if (isset($_GET["uninstall"])) {
-        // PLUGIN UNINSTALLATION
-        //----------------------------------------------------------------------------------------------------------------------
-        $plugin_id = $_GET["uninstall"];
-        $uninstalled = uninstall_plugin($plugin_id);
-        $uninstall_msg = ($uninstalled ? "Plugin uninstalled succesfully" : "Plugin uninstallation failed");
+    if (isset($_POST["uninstall"])) {
+
+        $plugin_ids = $_POST["plugins"];
+        $uninstalled = 0;
+
+        if (count($plugin_ids)) {
+            foreach($plugin_ids as $plugin_id) {
+                if(uninstall_plugin($plugin_id)) {
+                    $uninstalled++;
+                }
+            }
+        }
+
+        $uninstall_msg = ($uninstalled ? $uninstalled . " plugins uninstalled successfully" : "Plugin uninstallation(s) failed");
 
         ?>
         <script>
@@ -92,89 +111,57 @@ function gs_plugin_installer_main()
 
     }
 
-    // PLUGIN LIST
-    //----------------------------------------------------------------------------------------------------------------------
     $plugins = get_plugins();
 
     ?>
 
-    <h3 class="floated">Plugins</h3>
-    <div class="edit-nav clearfix">
-        <a href="load.php?id=gs_plugin_installer&update" title="Update">Refresh List</a>
-    </div>
+    <form id="gs_plugin_form" action="load.php?id=gs_plugin_installer" method="POST">
+        <h3 class="floated">Plugin Installer</h3>
+        <div class="edit-nav clearfix">
+            <a href="load.php?id=gs_plugin_installer&update">Update</a>
+            <button id="install" type="submit" name="install" value="1">Install</button>
+            <button id="uninstall" type="submit" name="uninstall" value="1">Remove</button>
+        </div>
 
-    <table id="plugin_table" class="highlight">
-        <thead>
-        <tr>
-            <th>Updated</th>
-            <th>Plugin</th>
-            <th>Description</th>
-            <th>Install</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($plugins as $index => $plugin): ?>
-            <tr id="tr-<?php echo $index ?>">
-                <td><?php $plugin->updated_date ?></td>
-                <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
-                <td>
-                    <div class="description"><?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?></div>
-                    <b>Version <?php echo $plugin->version ?></b>
-                        — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
-
-                </td>
-                <td style="width:60px;">
-                    <?php if (is_plugin_installed($plugin)): ?>
-                        <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
-                    <?php else: ?>
-                        <a href="load.php?id=gs_plugin_installer&install=<?php echo $plugin->id ?>">Install</a>
-                    <?php endif; ?>
-                </td>
+        <table id="plugin_table" class="highlight">
+            <thead>
+            <tr>
+                <th>Updated</th>
+                <th>Plugin</th>
+                <th>Description</th>
+                <th>Install</th>
+                <th>&nbsp;</th>
             </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <?php foreach ($plugins as $index => $plugin): ?>
+                <tr id="tr-<?php echo $index ?>">
+                    <td><?php $plugin->updated_date ?></td>
+                    <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
+                    <td>
+                        <div class="description"><?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?></div>
+                        <b>Version <?php echo $plugin->version ?></b>
+                            — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
 
-	<style>
-		#plugin_table .description {
-			display:block;
-			min-height: 45px; /* so when we are hovering the description wont shrink */
-			max-height: 45px;
-			overflow-y: hidden;
-			transition: max-height .8s;
-		}
+                    </td>
+                    <td style="width:60px;">
+                        <?php if (is_plugin_installed($plugin)): ?>
+                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
+                        <?php else: ?>
+                            <a href="load.php?id=gs_plugin_installer&install=<?php echo $plugin->id ?>">Install</a>
+                        <?php endif; ?>
+                    </td>
+                    <td><input name="plugins[]" type="checkbox" value="<?php echo $plugin->id ?>"></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </form>
 
-		/* When hovering the table row, show the entire description */
-		#plugin_table tr:hover td .description {
-			max-height: 5000px; /* Workaround for transition issues with height: auto; */
-			transition: max-height .8s;
-		}
-	</style>
-
-    <script>
-        $(document).ready(function () {
-            $('#plugin_table').DataTable({
-            	 "columnDefs": [
-	            	 {
-		                "targets": [ 0 ],
-		                "visible": false,
-		                "searchable": false
-		           	 },
-		           	 {
-		                "targets": [ 3 ],
-		                "visible": true,
-		                "searchable": false // exclude "install" column from search
-		           	 }
-	           	]
-            });
-        });
-    </script>
 <?php
 
 }
 
-
-//----------------------------------------------------------------------------------------------------------------------
 
 
 /**
@@ -204,8 +191,8 @@ function get_plugins()
 
         } else {
             // If the cache is fresh enough, we just load the data from it instead.
-            $cache_data = file_get_contents(CACHE_FILE);
-            $plugins = json_decode($cache_data);
+            $cachedata = file_get_contents(CACHE_FILE);
+            $plugins = json_decode($cachedata);
         }
     } else {
         // We have no cache file, fetch from API
@@ -420,7 +407,7 @@ function uninstall_plugin($id)
                 return false;
         }
 
-        // We succesfully uninstalled this plugin
+        // We successfully uninstalled this plugin
         return true;
     }
 }
