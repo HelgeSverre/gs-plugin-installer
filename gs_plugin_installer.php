@@ -52,7 +52,7 @@ function gs_plugin_installer_main()
         ?>
         <script>
         $(function () {
-            $('div.bodycontent').before('<div class="updated" style="display:block;">Plugin Cache refreshed</div>');
+            $('div.bodycontent').before('<div class="updated" style="display:block;">Plugin cache has been refreshed</div>');
                 $('.updated, .error').fadeOut(300).fadeIn(500);
             });
         </script>
@@ -60,15 +60,19 @@ function gs_plugin_installer_main()
     }
 
 
-    if (isset($_POST["install"])) {
-        $plugin_ids = $_POST["plugins"];
+    if (isset($_GET["install"])) {
+        $plugin_ids = $_GET["plugins"];
         $installed = 0;
 
-        if (count($plugin_ids)) {
+        if (is_array($plugin_ids)) {
             foreach($plugin_ids as $plugin_id) {
                 if(install_plugin($plugin_id)) {
                     $installed++;
                 }
+            }
+        } else {
+            if(install_plugin($plugin_ids)) {
+                $installed++;
             }
         }
 
@@ -85,16 +89,20 @@ function gs_plugin_installer_main()
     <?php
     }
 
-    if (isset($_POST["uninstall"])) {
+    if (isset($_GET["uninstall"])) {
 
-        $plugin_ids = $_POST["plugins"];
+        $plugin_ids = $_GET["plugins"];
         $uninstalled = 0;
 
-        if (count($plugin_ids)) {
+        if (is_array($plugin_ids)) {
             foreach($plugin_ids as $plugin_id) {
                 if(uninstall_plugin($plugin_id)) {
                     $uninstalled++;
                 }
+            }
+        } else {
+            if(uninstall_plugin($plugin_ids)) {
+                $uninstalled++;
             }
         }
 
@@ -115,7 +123,8 @@ function gs_plugin_installer_main()
 
     ?>
 
-    <form id="gs_plugin_form" action="load.php?id=gs_plugin_installer" method="POST">
+    <form id="gs_plugin_form" action="load.php" method="GET">
+        <input type="hidden" name="id" value="gs_plugin_installer">
         <h3 class="floated">Plugin Installer</h3>
         <div class="edit-nav clearfix">
             <a href="load.php?id=gs_plugin_installer&update">Update</a>
@@ -146,18 +155,19 @@ function gs_plugin_installer_main()
                         <div class="description">
                             <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
                         </div>
-                        <b>Version <?php echo $plugin->version ?></b>
-                            — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
-
+                        <b>Version <?php echo $plugin->version ?></b> — Author:
+                        <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
                     </td>
                     <td>
                         <?php if (is_plugin_installed($plugin)): ?>
-                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
+                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>">Uninstall</a>
                         <?php else: ?>
-                            <a href="load.php?id=gs_plugin_installer&install=<?php echo $plugin->id ?>">Install</a>
+                            <a href="load.php?id=gs_plugin_installer&install=1&plugins=<?php echo $plugin->id ?>">Install</a>
                         <?php endif; ?>
                     </td>
-                    <td><input name="plugins[]" type="checkbox" value="<?php echo $plugin->id ?>"></td>
+                    <td>
+                        <input name="plugins[]" type="checkbox" value="<?php echo $plugin->id ?>">
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
@@ -167,7 +177,6 @@ function gs_plugin_installer_main()
 <?php
 
 }
-
 
 
 /**
