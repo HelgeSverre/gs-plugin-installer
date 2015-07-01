@@ -29,8 +29,10 @@ register_plugin(
 // Queue the datatables js from CDN
 register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
 register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
+register_script('shiftcheckbox', $SITEURL . 'plugins/gs_plugin_installer/js/jquery.shiftcheckbox.js', '0.1');
 queue_script('datatables_js', GSBACK);
 queue_script('gs_plugin_installer_js', GSBACK);
+queue_script('shiftcheckbox', GSBACK);
 
 
 // Queue the datatables css from CDN
