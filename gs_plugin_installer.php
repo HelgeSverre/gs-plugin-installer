@@ -137,7 +137,11 @@ function gs_plugin_installer_main()
             <?php foreach ($plugins as $index => $plugin): ?>
                 <tr id="tr-<?php echo $index ?>">
                     <td><?php $plugin->updated_date ?></td>
-                    <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
+                    <td>
+                        <a href="<?php echo $plugin->path?>" target="_blank">
+                            <b><?php echo $plugin->name ?></b>
+                        </a>
+                    </td>
                     <td>
                         <div class="description">
                             <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
@@ -146,7 +150,7 @@ function gs_plugin_installer_main()
                             — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
 
                     </td>
-                    <td style="width:60px;">
+                    <td>
                         <?php if (is_plugin_installed($plugin)): ?>
                             <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=<?php echo $plugin->id ?>">Uninstall</a>
                         <?php else: ?>
