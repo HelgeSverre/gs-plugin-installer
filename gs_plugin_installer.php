@@ -217,7 +217,6 @@ function get_plugins()
         save_to_cache($plugins);
     }
 
-
     // Return all plugins
     return $plugins;
 }
@@ -359,7 +358,7 @@ function install_plugin($id)
                 // Close the resource handle
                 $zip->close();
 
-                // delete the temp file
+                // Delete the temp file
                 unlink($filepath);
 
                 return true; // Installation successful
@@ -369,7 +368,7 @@ function install_plugin($id)
         }
     }
 
-    // Invalid plugin id
+    // Invalid plugin id or couldn't save plugin to disk
     return false;
 }
 
@@ -393,6 +392,7 @@ function is_plugin_installed($plugin)
         return true;
     }
 
+    // Plugin is (most likely) not installed
     return false;
 }
 
@@ -408,6 +408,7 @@ function is_plugin_installed($plugin)
 function uninstall_plugin($id)
 {
     if (is_numeric($id)) {
+
         // We need to get the main plugin file name.
         $plugin = query_api("http://get-simple.info/api/extend/?id=" . $id);
 
@@ -449,7 +450,7 @@ function delete_directory_tree($dir)
     // foreach item in the folder
     foreach ($files as $file) {
         if ((is_dir($dir . '/' . $file))) {
-            // If the item is a folder, we call ourself (recursion)
+            // If the item is a folder, we recurse this function
             delete_directory_tree($dir . '/' . $file);
         } else {
             // if the item is a file, delete it.
@@ -457,6 +458,7 @@ function delete_directory_tree($dir)
         }
     }
 
+    // No more subfolders in $dir.
     return rmdir($dir);
 }
 
