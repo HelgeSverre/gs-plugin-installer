@@ -139,7 +139,9 @@ function gs_plugin_installer_main()
                     <td><?php $plugin->updated_date ?></td>
                     <td style="width:150px"><a href="<?php echo $plugin->path?>" target="_blank"><b><?php echo $plugin->name ?></b></a></td>
                     <td>
-                        <div class="description"><?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?></div>
+                        <div class="description">
+                            <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
+                        </div>
                         <b>Version <?php echo $plugin->version ?></b>
                             — Author: <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
 
@@ -234,7 +236,7 @@ function save_to_cache($data, $file = CACHE_FILE)
  * deletes a file
  * @param string $file pass it the cache file to delete
  */
-function delete_plugin_cache($file)
+function delete_plugin_cache($file = CACHE_FILE)
 {
     unlink($file);
 }
@@ -270,9 +272,9 @@ function fetch_plugins_from_api()
 
 
 /**
+ * Queries the URL and returns the data as the appropriate type after being json decoded.
  * @param string $url the url to go and fetch json data from
- * @return mixed returns the appropriate PHP Type from the
- * JSON_DECODE'ed data from the Extend API, returns false if conversion fails.
+ * @return mixed returns array or object depending on context
  */
 function query_api($url)
 {
@@ -347,9 +349,9 @@ function install_plugin($id)
                 // delete the temp file
                 unlink($filepath);
 
-                return true; // Installation successfull
+                return true; // Installation successful
             } else {
-                return false; // Insallation failed
+                return false; // Installation failed
             }
         }
     }
@@ -368,7 +370,13 @@ function is_plugin_installed($plugin)
 {
     $plugin_file = GSPLUGINPATH . "/" . $plugin->filename_id;
 
+    // If the plugin file exists
     if (file_exists($plugin_file)) {
+        return true;
+    }
+
+    // If the plugin folder exists
+    if (file_exists(basename($plugin_file, ".php"))) {
         return true;
     }
 
@@ -410,11 +418,13 @@ function uninstall_plugin($id)
         // We successfully uninstalled this plugin
         return true;
     }
+
+    return false;
 }
 
 
 /**
- * deletes a folder and everything inside of it by using recursion
+ * Deletes a folder and everything inside of it by using recursion.
  * @param string $dir the folder to delete the contents of
  * @return bool true on success, false on failure
  */
