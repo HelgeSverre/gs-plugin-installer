@@ -24,26 +24,25 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 [Download here](http://get-simple.info/extend/plugin/gs-plugin-installer/955/)
 
 ```
-1. download the gs-plugin-installer.zip file
+1. Download the plugin zip file.
 2. Unzip it into /plugins
 3. Activate it in the "Plugins" tab in your GetSimple CMS admin area.
+4. Done
 ```
 
 
 ### Features
 
-- Installing plugins
-- Uninstalling plugins
+- Installing one or multiple plugins
+- Uninstalling one or multiple plugins
 - Sort plugins by name, author and whether or not its installed or not.
 - Search for plugins by name, author and it's installation status
 
 
 ### Planned Features and TODOs
 
-- Enable installation of multiple plugins at the same time
 - Add way to active a plugin from the plugin installer, this can only be done from the native "Installed Plugins" area for now.
 - Improve the caching system.
-- Enable a "read more" feature for descriptions of plugins with a hide/show dropdown feature, right now descriptions are capped at 120 characters.
 - Refactor the script to be more object oriented and structured.
 - Add more flexibility through plugin settings so users can control the behaviour of the script and caching functionality.
 - "Last Updated" ordering
