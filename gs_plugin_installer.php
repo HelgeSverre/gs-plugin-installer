@@ -64,6 +64,11 @@ queue_script('gs_plugin_installer_js', GSBACK);
 queue_style('gs_plugin_installer_css', GSBACK);
 queue_style('datatables_css', GSBACK);
 
+
+
+/**
+ * Function responsible for initializing the plugin
+ */
 function gs_plugin_installer_init() {
 
     /**
@@ -84,9 +89,14 @@ function gs_plugin_installer_init() {
 }
 
 
-// Main plugin function
+/**
+ * Main plugin function, runs all the logic, you could call it the "controller"
+ * @param PluginInstaller $pluginInstaller an instance of the PluginInstaller class.
+ */
 function gs_plugin_installer_main($pluginInstaller)
 {
+
+    // TODO(03.07.2015) ~ Helge: Move a lot of this logic into a "controller" class, leaving this method as only a routing function
 
     if (isset($_GET["update"])) {
         $pluginInstaller->deleteCache();
