@@ -37,7 +37,7 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 - Uninstalling one or multiple plugins
 - Order/Sort plugins by name, author and whether or not its installed or not.
 - Search for plugins by name, author and it's installation status
-
+- Supports localization, currently has English and Norwegian by default!
 
 ### Planned Features and TODOs
 
