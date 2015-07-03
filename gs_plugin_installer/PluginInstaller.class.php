@@ -1,5 +1,8 @@
 <?php
 
+// No direct access
+defined('IN_GS') or die('Cannot load plugin directly.');
+
 // TODO(03.07.2015) ~ Helge: Decouple code
 // TODO(03.07.2015) ~ Helge: move "singular"-plugin related code into own class.
 
@@ -8,9 +11,10 @@ class PluginInstaller
 
     protected $plugins;
     protected $cache_path;
-    
-    
-    public function __construct($cache_path) {
+
+
+    public function __construct($cache_path)
+    {
         $this->cache_path = $cache_path;
     }
 
