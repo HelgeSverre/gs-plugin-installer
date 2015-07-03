@@ -1,15 +1,21 @@
-<?php defined('IN_GS') or die('Cannot load plugin directly.');
-/*
-Plugin Name: GS Plugin Installer
-Description: Lets you browse, install and uninstall plugins from your administration area.
-Version: 1.1.6
-Author: Helge Sverre
-Author URI: https://helgesverre.com/
-*/
+<?php
 
+/**
+ * Plugin Name: GS Plugin Installer
+ * Description: Lets you browse, install and uninstall plugins from your administration area.
+ * Version: 1.2.6
+ * Author: Helge Sverre
+ * Author URI: https://helgesverre.com/
+ */
+
+
+// No direct access
+defined('IN_GS') or die('Cannot load plugin directly.');
 
 // Gets the plugin id, which is pretty much just the filename without the extension
 $thisfile = basename(__FILE__, ".php");
+
+
 
 // Set a constant for our plugin cache file
 define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
@@ -18,7 +24,7 @@ define("CACHE_FILE", GSPLUGINPATH . '/' . $thisfile . '/plugin_cache.json');
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.1.6',
+    '1.2.6',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -26,23 +32,28 @@ register_plugin(
     'gs_plugin_installer_main'
 );
 
-// Queue the datatables js from CDN
+
+// Register scripts and styles
 register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
 register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
-register_script('shiftcheckbox', $SITEURL . 'plugins/gs_plugin_installer/js/jquery.shiftcheckbox.js', '0.1');
-queue_script('datatables_js', GSBACK);
-queue_script('gs_plugin_installer_js', GSBACK);
-queue_script('shiftcheckbox', GSBACK);
 
-
-// Queue the datatables css from CDN
 register_style('datatables_css', 'http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
 register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1');
+
+
+// Queue the scripts  &styles
+queue_script('datatables_js', GSBACK);
+queue_script('gs_plugin_installer_js', GSBACK);
+
 queue_style('gs_plugin_installer_css', GSBACK);
 queue_style('datatables_css', GSBACK);
 
+
 // add a link in the admin tab 'plugins'
-add_action('plugins-sidebar', 'createSideMenu', array($thisfile, 'Plugin Installer'));
+add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Installer"));
+
+// Import plugin localization files
+i18n_merge('gs_plugin_installer');
 
 
 // Main plugin function
@@ -54,7 +65,7 @@ function gs_plugin_installer_main()
         ?>
         <script>
         $(function () {
-            $('div.bodycontent').before('<div class="updated" style="display:block;">Plugin cache has been refreshed</div>');
+            $('div.bodycontent').before('<div class="updated" style="display:block;"><?php i18n("gs_plugin_installer/CACHE_REFRESHED"); ?></div>');
                 $('.updated, .error').fadeOut(300).fadeIn(500);
             });
         </script>
@@ -78,7 +89,7 @@ function gs_plugin_installer_main()
             }
         }
 
-        $install_msg = ($installed ? $installed . " plugins installed successfully" : "Plugin installation(s) failed");
+        $install_msg = ($installed ? $installed . i18n_r("gs_plugin_installer/INSTALLED_SUCCESS") : i18n_r("gs_plugin_installer/INSTALLED_FAIL"));
 
         ?>
         <script>
@@ -108,7 +119,7 @@ function gs_plugin_installer_main()
             }
         }
 
-        $uninstall_msg = ($uninstalled ? $uninstalled . " plugins uninstalled successfully" : "Plugin uninstallation(s) failed");
+        $uninstall_msg = ($uninstalled ? $uninstalled . i18n_r("gs_plugin_installer/UNINSTALLED_SUCCESS") : i18n_r("gs_plugin_installer/UNINSTALLED_FAIL"));
 
         ?>
         <script>
@@ -127,20 +138,20 @@ function gs_plugin_installer_main()
 
     <form id="gs_plugin_form" action="load.php" method="GET">
         <input type="hidden" name="id" value="gs_plugin_installer">
-        <h3 class="floated">Plugin Installer</h3>
+        <h3 class="floated"><?php i18n("gs_plugin_installer/PLUGIN_NAME"); ?></h3>
         <div class="edit-nav clearfix">
-            <a href="load.php?id=gs_plugin_installer&update">Update</a>
-            <button id="install" type="submit" name="install" value="1">Install</button>
-            <button id="uninstall" type="submit" name="uninstall" value="1">Remove</button>
+            <a href="load.php?id=gs_plugin_installer&update"><?php i18n("gs_plugin_installer/REFRESH"); ?></a>
+            <button id="install" type="submit" name="install" value="1"><?php i18n("gs_plugin_installer/INSTALL"); ?></button>
+            <button id="uninstall" type="submit" name="uninstall" value="1"><?php i18n("gs_plugin_installer/UNINSTALL"); ?></button>
         </div>
 
         <table id="plugin_table" class="highlight">
             <thead>
             <tr>
-                <th>Updated</th>
-                <th>Plugin</th>
-                <th>Description</th>
-                <th>Install</th>
+                <th><?php i18n("gs_plugin_installer/LIST_UPDATED"); ?></th>
+                <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
+                <th><?php i18n("gs_plugin_installer/LIST_DESCRIPTION"); ?></th>
+                <th><?php i18n("gs_plugin_installer/LIST_INSTALL"); ?></th>
                 <th>&nbsp;</th>
             </tr>
             </thead>
@@ -157,14 +168,14 @@ function gs_plugin_installer_main()
                         <div class="description">
                             <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
                         </div>
-                        <b>Version <?php echo $plugin->version ?></b> — Author:
+                        <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b> — <?php i18n("gs_plugin_installer/AUTHOR"); ?>:
                         <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
                     </td>
                     <td>
                         <?php if (is_plugin_installed($plugin)): ?>
                             <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>">Uninstall</a>
                         <?php else: ?>
-                            <a href="load.php?id=gs_plugin_installer&install=1&plugins=<?php echo $plugin->id ?>">Install</a>
+                            <a href="load.php?id=gs_plugin_installer&install=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/INSTALL"); ?></a>
                         <?php endif; ?>
                     </td>
                     <td>
@@ -175,7 +186,6 @@ function gs_plugin_installer_main()
             </tbody>
         </table>
     </form>
-
 <?php
 
 }
