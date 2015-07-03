@@ -91,7 +91,8 @@ class PluginInstaller
     function deleteCache($file = false)
     {
         if (!$file) $file = $this->cache_path;
-        unlink($file);
+        if (file_exists($file))
+            unlink($file);
     }
 
 
@@ -118,7 +119,7 @@ class PluginInstaller
             }
         }
 
-        return true;
+        return $this->plugins;
     }
 
 

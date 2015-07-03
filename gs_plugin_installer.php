@@ -5,6 +5,14 @@ defined('IN_GS') or die('Cannot load plugin directly.');
 
 
 /**
+ *  Only used for development
+ * Uncomment to enable full error reporting
+ **********************************************************************/
+// error_reporting(E_ALL);
+// ini_set("display_errors", "on");
+
+
+/**
  *  Gets the plugin "id"
  **********************************************************************/
 $thisfile = basename(__FILE__, ".php");
@@ -40,15 +48,15 @@ add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Install
 /**
  *  Register scripts
  **********************************************************************/
-register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
 register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
 
 
 /**
  *  Register the styles
  **********************************************************************/
-register_style('datatables_css', 'http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
-register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1');
+register_style('datatables_css', '//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1', 'screen');
 
 
 /**
@@ -79,7 +87,7 @@ function gs_plugin_installer_init() {
     /**
      * Initialize our PluginInstaller object
      **********************************************************************/
-    $Installer = new PluginInstaller("gs_plugin_installer/plugin_cache.json");
+    $Installer = new PluginInstaller( dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json");
 
 
     /**
@@ -95,6 +103,9 @@ function gs_plugin_installer_init() {
  */
 function gs_plugin_installer_main($pluginInstaller)
 {
+
+
+    $startime = microtime();
 
     // TODO(03.07.2015) ~ Helge: Move a lot of this logic into a "controller" class, leaving this method as only a routing function
 
@@ -226,6 +237,10 @@ function gs_plugin_installer_main($pluginInstaller)
         </table>
     </form>
 <?php
+
+    $endtime = microtime();
+
+    echo "<small>Took " . ($endtime - $startime) . " Microseconds</small>";
 }
 
 ?>
