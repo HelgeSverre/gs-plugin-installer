@@ -1,25 +1,28 @@
 <?php
 
-/**
- * Plugin Name: GS Plugin Installer
- * Description: Lets you browse, install and uninstall plugins from your administration area.
- * Version: 1.2.6
- * Author: Helge Sverre
- * Author URI: https://helgesverre.com/
- */
-
-
 // No direct access
 defined('IN_GS') or die('Cannot load plugin directly.');
 
-// Gets the plugin id, which is pretty much just the filename without the extension
+
+/**
+ *  Include the plugin installer class
+ **********************************************************************/
+require_once($thisfile . "/PluginInstaller.class.php");
+
+
+/**
+ *  Gets the plugin "id"
+ **********************************************************************/
 $thisfile = basename(__FILE__, ".php");
 
-// Register this plugin
+
+/**
+ *  Register the plugin
+ **********************************************************************/
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.2.6',
+    '1.3.6',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -28,39 +31,63 @@ register_plugin(
 );
 
 
-// Register scripts and styles
-register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
-register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
+function gs_plugin_installer_init() {
 
-register_style('datatables_css', 'http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
-register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1');
-
-
-// Queue the scripts  &styles
-queue_script('datatables_js', GSBACK);
-queue_script('gs_plugin_installer_js', GSBACK);
-
-queue_style('gs_plugin_installer_css', GSBACK);
-queue_style('datatables_css', GSBACK);
+    /**
+     *  Register scripts
+     **********************************************************************/
+    register_script('datatables_js', 'http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+    register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
 
 
-// add a link in the admin tab 'plugins'
-add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Installer"));
+    /**
+     *  Register the styles
+     **********************************************************************/
+    register_style('datatables_css', 'http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+    register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1');
 
-// Import plugin localization files
-i18n_merge('gs_plugin_installer');
-error_reporting(E_ALL);
-ini_set("displayer", "on");
 
-require_once($thisfile . "/PluginInstaller.class.php");
+    /**
+     *  Queue the scripts
+     **********************************************************************/
+    queue_script('datatables_js', GSBACK);
+    queue_script('gs_plugin_installer_js', GSBACK);
+
+
+    /**
+     *  Queue the styles
+     **********************************************************************/
+    queue_style('gs_plugin_installer_css', GSBACK);
+    queue_style('datatables_css', GSBACK);
+
+
+    /**
+     *  Add link to plugin in sidebar
+     **********************************************************************/
+    add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Installer"));
+
+
+    /**
+     *  Import localization files, default to english
+     **********************************************************************/
+    i18n_merge('gs_plugin_installer', "en_US");
+
+    /**
+     * Initialize our PluginInstaller object
+     **********************************************************************/
+    $Installer = new PluginInstaller("gs_plugin_installer/plugin_cache.json");
+
+
+    /**
+     * Run our plugin
+     **********************************************************************/
+    gs_plugin_installer_main($Installer);
+}
+
 
 // Main plugin function
-function gs_plugin_installer_main()
+function gs_plugin_installer_main($pluginInstaller)
 {
-
-    $pluginInstaller = new PluginInstaller("gs_plugin_installer/plugin_cache.json");
-
-
 
     if (isset($_GET["update"])) {
         $pluginInstaller->deleteCache();
@@ -170,7 +197,8 @@ function gs_plugin_installer_main()
                         <div class="description">
                             <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
                         </div>
-                        <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b> — <?php i18n("gs_plugin_installer/AUTHOR"); ?>:
+                        <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b>
+                        — <?php i18n("gs_plugin_installer/AUTHOR"); ?>:
                         <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
                     </td>
                     <td>
@@ -189,8 +217,6 @@ function gs_plugin_installer_main()
         </table>
     </form>
 <?php
-
 }
-
 
 ?>
