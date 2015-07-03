@@ -82,7 +82,7 @@ function gs_plugin_installer_init() {
     /**
      *  Import localization files, default to english
      **********************************************************************/
-    i18n_merge('gs_plugin_installer', "en_US");
+    i18n_merge('gs_plugin_installer') || i18n_merge('gs_plugin_installer', "en_US");
 
     /**
      * Initialize our PluginInstaller object
@@ -103,10 +103,7 @@ function gs_plugin_installer_init() {
  */
 function gs_plugin_installer_main($pluginInstaller)
 {
-
-
-    $startime = microtime();
-
+    
     // TODO(03.07.2015) ~ Helge: Move a lot of this logic into a "controller" class, leaving this method as only a routing function
 
     if (isset($_GET["update"])) {
@@ -197,7 +194,6 @@ function gs_plugin_installer_main($pluginInstaller)
         <table id="plugin_table" class="highlight">
             <thead>
             <tr>
-                <th><?php i18n("gs_plugin_installer/LIST_UPDATED"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_DESCRIPTION"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_INSTALL"); ?></th>
@@ -207,7 +203,6 @@ function gs_plugin_installer_main($pluginInstaller)
             <tbody>
             <?php foreach ($plugins as $index => $plugin): ?>
                 <tr id="tr-<?php echo $index ?>">
-                    <td><?php $plugin->updated_date ?></td>
                     <td>
                         <a href="<?php echo $plugin->path?>" target="_blank">
                             <b><?php echo $plugin->name ?></b>
@@ -237,10 +232,5 @@ function gs_plugin_installer_main($pluginInstaller)
         </table>
     </form>
 <?php
-
-    $endtime = microtime();
-
-    echo "<small>Took " . ($endtime - $startime) . " Microseconds</small>";
 }
-
 ?>
