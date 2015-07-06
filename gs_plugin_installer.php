@@ -5,7 +5,7 @@ defined('IN_GS') or die('Cannot load plugin directly.');
 
 
 /**
- *  Only used for development
+ * Only used for development
  * Uncomment to enable full error reporting
  **********************************************************************/
 // error_reporting(E_ALL);
@@ -30,7 +30,7 @@ require_once($thisfile . "/PluginInstaller.class.php");
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.3.6',
+    '1.4.6',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -103,7 +103,7 @@ function gs_plugin_installer_init() {
  */
 function gs_plugin_installer_main($pluginInstaller)
 {
-    
+
     // TODO(03.07.2015) ~ Helge: Move a lot of this logic into a "controller" class, leaving this method as only a routing function
 
     if (isset($_GET["update"])) {
