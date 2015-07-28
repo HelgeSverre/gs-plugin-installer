@@ -45,6 +45,7 @@ register_plugin(
 add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Installer"));
 
 
+if ($_GET['id'] === $thisfile) {
 /**
  *  Register scripts
  **********************************************************************/
@@ -71,6 +72,7 @@ queue_script('gs_plugin_installer_js', GSBACK);
  **********************************************************************/
 queue_style('gs_plugin_installer_css', GSBACK);
 queue_style('datatables_css', GSBACK);
+}
 
 
 
