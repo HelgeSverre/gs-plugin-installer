@@ -44,34 +44,34 @@ register_plugin(
  **********************************************************************/
 add_action('plugins-sidebar', 'createSideMenu', array($thisfile, "Plugin Installer"));
 
-
-if ($_GET['id'] === $thisfile) {
-/**
- *  Register scripts
- **********************************************************************/
-register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
-register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
-
-
-/**
- *  Register the styles
- **********************************************************************/
-register_style('datatables_css', '//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
-register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1', 'screen');
+// Only queue scripts when we are actually executing this plugin
+if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
+    /**
+     *  Register scripts
+     **********************************************************************/
+    register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+    register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
 
 
-/**
- *  Queue the scripts
- **********************************************************************/
-queue_script('datatables_js', GSBACK);
-queue_script('gs_plugin_installer_js', GSBACK);
+    /**
+     *  Register the styles
+     **********************************************************************/
+    register_style('datatables_css', '//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+    register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1', 'screen');
 
 
-/**
- *  Queue the styles
- **********************************************************************/
-queue_style('gs_plugin_installer_css', GSBACK);
-queue_style('datatables_css', GSBACK);
+    /**
+     *  Queue the scripts
+     **********************************************************************/
+    queue_script('datatables_js', GSBACK);
+    queue_script('gs_plugin_installer_js', GSBACK);
+
+
+    /**
+     *  Queue the styles
+     **********************************************************************/
+    queue_style('gs_plugin_installer_css', GSBACK);
+    queue_style('datatables_css', GSBACK);
 }
 
 
