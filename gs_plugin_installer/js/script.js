@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
     // Confirm when uninstalling plugins
-    $("#uninstall").click(function() { return confirm("Are you sure you want to uninstall the selected plugins?"); });
-    $("a.cancel").click(function() { return confirm("Are you sure you want to uninstall this plugin?"); });
+    $("#uninstall").click(function() { return confirm(i18n(['CONFIRM_UNINSTALL_ALL'])); });
+    $("a.cancel").click(function() { return confirm(i18n(['CONFIRM_UNINSTALL'])); });
 
     // Initialize DataTable
     $('#plugin_table').DataTable({
