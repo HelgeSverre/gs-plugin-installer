@@ -182,6 +182,12 @@ function gs_plugin_installer_main($pluginInstaller)
 
     ?>
 
+	<script>
+	    (function(i18n) {
+			i18n['CONFIRM_UNINSTALL'] = '<?php i18n("gs_plugin_installer/CONFIRM_UNINSTALL"); ?>';
+			i18n['CONFIRM_UNINSTALL_ALL'] = '<?php i18n("gs_plugin_installer/CONFIRM_UNINSTALL_ALL"); ?>';
+		}(GS.i18n));
+	</script>
     <form id="gs_plugin_form" action="load.php" method="GET">
         <input type="hidden" name="id" value="gs_plugin_installer">
         <h3 class="floated"><?php i18n("gs_plugin_installer/PLUGIN_NAME"); ?></h3>
