@@ -8,6 +8,11 @@ $(document).ready(function () {
     $('#plugin_table').DataTable({
         "columnDefs": [
             {
+                "targets": [1],
+                "visible": true,
+                "searchable": false // exclude plugin description column from search
+            },
+            {
                 "targets": [2],
                 "visible": true,
                 "searchable": false // exclude "install" column from search
