@@ -30,7 +30,7 @@ require_once($thisfile . "/PluginInstaller.class.php");
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.4.7',
+    '1.4.8',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
