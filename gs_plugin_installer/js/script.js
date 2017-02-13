@@ -24,6 +24,10 @@ $(document).ready(function () {
                 "searchable": false, // checkbox
                 "sortable": false
             }
-        ]
+        ],
+        initComplete: function() {
+            // fixes table overflow before DataTable finishes rendering
+            $('#plugin_table').css('display', 'table');
+        }
     });
 });

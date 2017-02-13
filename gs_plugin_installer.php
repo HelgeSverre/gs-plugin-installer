@@ -199,7 +199,7 @@ function gs_plugin_installer_main($pluginInstaller)
             <button id="uninstall" type="submit" name="uninstall" value="1"><?php i18n("gs_plugin_installer/UNINSTALL"); ?></button>
         </div>
 
-        <table id="plugin_table" class="highlight">
+        <table id="plugin_table" class="highlight" style="display: none;">
             <thead>
             <tr>
                 <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
