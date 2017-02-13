@@ -15,12 +15,14 @@ $(document).ready(function () {
             {
                 "targets": [2],
                 "visible": true,
-                "searchable": false // exclude "install" column from search
+                "searchable": false, // exclude "install" column from search
+                "sortable": false
             },
             {
                 "targets": [3],
                 "visible": true,
-                "searchable": false // checkbox
+                "searchable": false, // checkbox
+                "sortable": false
             }
         ]
     });
