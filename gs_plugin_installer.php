@@ -226,7 +226,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     </td>
                     <td>
                         <?php if ($pluginInstaller->isPluginInstalled($plugin)): ?>
-                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>">Uninstall</a>
+                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/UNINSTALL") ?></a>
                         <?php else: ?>
                             <a href="load.php?id=gs_plugin_installer&install=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/INSTALL"); ?></a>
                         <?php endif; ?>
