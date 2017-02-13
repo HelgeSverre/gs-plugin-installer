@@ -122,7 +122,7 @@ function gs_plugin_installer_main($pluginInstaller)
 
 
     if (isset($_GET["install"])) {
-        $plugin_ids = $_GET["plugins"];
+        $plugin_ids = isset($_GET["plugins"]) ? $_GET['plugins'] : false;
         $installed = 0;
 
         if (is_array($plugin_ids)) {
@@ -131,7 +131,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     $installed++;
                 }
             }
-        } else {
+        } else if ($plugin_ids) {
             if($pluginInstaller->installPlugin($plugin_ids)) {
                 $installed++;
             }
@@ -152,7 +152,7 @@ function gs_plugin_installer_main($pluginInstaller)
 
     if (isset($_GET["uninstall"])) {
 
-        $plugin_ids = $_GET["plugins"];
+        $plugin_ids = isset($_GET["plugins"]) ? $_GET['plugins'] : false;
         $uninstalled = 0;
 
         if (is_array($plugin_ids)) {
@@ -161,7 +161,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     $uninstalled++;
                 }
             }
-        } else {
+        } else if ($plugin_ids) {
             if($pluginInstaller->uninstallPlugin($plugin_ids)) {
                 $uninstalled++;
             }
