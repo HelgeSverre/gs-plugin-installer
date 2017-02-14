@@ -122,7 +122,7 @@ function gs_plugin_installer_main($pluginInstaller)
 
 
     if (isset($_GET["install"])) {
-        $plugin_ids = $_GET["plugins"];
+        $plugin_ids = isset($_GET["plugins"]) ? $_GET['plugins'] : false;
         $installed = 0;
 
         if (is_array($plugin_ids)) {
@@ -131,7 +131,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     $installed++;
                 }
             }
-        } else {
+        } else if ($plugin_ids) {
             if($pluginInstaller->installPlugin($plugin_ids)) {
                 $installed++;
             }
@@ -152,7 +152,7 @@ function gs_plugin_installer_main($pluginInstaller)
 
     if (isset($_GET["uninstall"])) {
 
-        $plugin_ids = $_GET["plugins"];
+        $plugin_ids = isset($_GET["plugins"]) ? $_GET['plugins'] : false;
         $uninstalled = 0;
 
         if (is_array($plugin_ids)) {
@@ -161,7 +161,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     $uninstalled++;
                 }
             }
-        } else {
+        } else if ($plugin_ids) {
             if($pluginInstaller->uninstallPlugin($plugin_ids)) {
                 $uninstalled++;
             }
@@ -199,7 +199,7 @@ function gs_plugin_installer_main($pluginInstaller)
             <button id="uninstall" type="submit" name="uninstall" value="1"><?php i18n("gs_plugin_installer/UNINSTALL"); ?></button>
         </div>
 
-        <table id="plugin_table" class="highlight">
+        <table id="plugin_table" class="highlight" style="display: none;">
             <thead>
             <tr>
                 <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
@@ -226,7 +226,7 @@ function gs_plugin_installer_main($pluginInstaller)
                     </td>
                     <td>
                         <?php if ($pluginInstaller->isPluginInstalled($plugin)): ?>
-                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>">Uninstall</a>
+                            <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/UNINSTALL") ?></a>
                         <?php else: ?>
                             <a href="load.php?id=gs_plugin_installer&install=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/INSTALL"); ?></a>
                         <?php endif; ?>
