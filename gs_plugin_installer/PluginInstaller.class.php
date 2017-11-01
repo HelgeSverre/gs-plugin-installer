@@ -11,11 +11,13 @@ class PluginInstaller
 
     protected $plugins;
     protected $cache_path;
+    protected $cache_expire_days;
 
 
-    public function __construct($cache_path)
+    public function __construct($cache_path, $cache_expire_days = 1)
     {
         $this->cache_path = $cache_path;
+        $this->cache_expire_days = is_numeric($cache_expire_days) && $cache_expire_days > 0 ? $cache_expire_days : 1;
     }
 
 
@@ -35,7 +37,7 @@ class PluginInstaller
             $cache_age = (time() - filemtime($this->cache_path));
 
             // If the cache is older than 24 hours, we fetch new data from the API
-            if (($cache_age) > (24 * 3600)) {
+            if (($cache_age) > ($this->cache_expire_days * 24 * 3600)) {
 
                 // Fetch the plugins from the api
                 $this->plugins = $this->getPluginsFromApi();
