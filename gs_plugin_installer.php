@@ -51,6 +51,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
      **********************************************************************/
     register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
     register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
+    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.8.0');
 
 
     /**
@@ -65,6 +66,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
      **********************************************************************/
     queue_script('datatables_js', GSBACK);
     queue_script('gs_plugin_installer_js', GSBACK);
+    queue_script('showdown_js', GSBACK);
 
 
     /**
