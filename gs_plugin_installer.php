@@ -51,6 +51,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
      **********************************************************************/
     register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
     register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
+    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.8.0');
 
 
     /**
@@ -65,6 +66,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
      **********************************************************************/
     queue_script('datatables_js', GSBACK);
     queue_script('gs_plugin_installer_js', GSBACK);
+    queue_script('showdown_js', GSBACK);
 
 
     /**
@@ -218,11 +220,23 @@ function gs_plugin_installer_main($pluginInstaller)
                     </td>
                     <td>
                         <div class="description">
-                            <?php echo trim(strip_tags(nl2br($plugin->description), "<br><br/>")) ?>
+                            <?php 
+                              $hasLongDesc = strlen(preg_replace('~ {6,100}~', ' ', $plugin->description)) > 150;
+                              $summary = substr(trim(strip_tags($plugin->description)), 0, 150) . '...';
+                              
+                              if ($hasLongDesc) {
+                                  echo $summary;;
+                                  echo '<div class="full_description">' . trim(strip_tags($plugin->description)) . '</div>';
+                              } else {
+                                  echo trim(strip_tags($plugin->description));
+                              } ?>
                         </div>
                         <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b>
                         — <?php i18n("gs_plugin_installer/AUTHOR"); ?>:
                         <a href="<?php echo $plugin->author_url ?>" target="_blank"><?php echo $plugin->owner ?></a>
+                        <?php if ($hasLongDesc): ?>
+                        — <a href="javascript:void(0)" class="more-info"><?php i18n("gs_plugin_installer/MORE_INFO"); ?></a>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <?php if ($pluginInstaller->isPluginInstalled($plugin)): ?>
