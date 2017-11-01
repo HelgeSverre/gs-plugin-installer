@@ -17,5 +17,6 @@ $i18n = array(
     'LIST_INSTALL'          => 'Installiert',
     'AUTHOR'                => 'Autor',
     'VERSION'               => 'Version',
-    'PLUGIN_NAME'           => 'GS Plugin Installer'
+    'PLUGIN_NAME'           => 'GS Plugin Installer',
+    'MORE_INFO'             => 'Mehr infos'
 );
