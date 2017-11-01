@@ -1,17 +1,3 @@
-#plugin_table .description {
-    display: block;
-    min-height: 45px; /* so when we are hovering the description wont shrink */
-    max-height: 45px;
-    overflow-y: hidden;
-    transition: max-height .8s;
-}
-
-/* When hovering the table row, show the entire description */
-#plugin_table tr td .description:hover {
-    max-height: 5000px; /* Workaround for transition issues with height: auto; */
-    transition: max-height .8s;
-}
-
 .edit-nav button {
     line-height: 14px !important;
     background-color: #182227;
@@ -46,3 +32,22 @@
     line-height: 14px !important;
     text-shadow: 1px 1px 0px rgba(0, 0, 0, .2);
 }
+
+.full_description { display: none;}
+.fancybox-inner img {
+  max-width: 100%;
+  max-height: 480px;
+}
+.fancybox-inner ul {
+  list-style-type: disc;
+  padding-left: 15px;
+}
+.fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
+  font-size: 16px;
+  color: #CF3805;
+}
+.fancybox-inner pre, .fancybox-inner ul, .fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
+  margin: 10px 0;
+}
+.fancybox-inner a:link, .fancybox-inner a:visited {color: #415A66; text-decoration:underline;}
+.fancybox-inner a:hover {color: #333;}
