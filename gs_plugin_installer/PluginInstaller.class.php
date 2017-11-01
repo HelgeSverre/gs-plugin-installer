@@ -36,7 +36,7 @@ class PluginInstaller
             // Get the last time that the cache was modified
             $cache_age = (time() - filemtime($this->cache_path));
 
-            // If the cache is older than 24 hours, we fetch new data from the API
+            // If the cache is older than the cache expire time, we fetch new data from the API
             if (($cache_age) > ($this->cache_expire_days * 24 * 3600)) {
 
                 // Fetch the plugins from the api
