@@ -91,7 +91,7 @@ function gs_plugin_installer_init() {
     /**
      * Initialize our PluginInstaller object
      **********************************************************************/
-    $Installer = new PluginInstaller( dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json");
+    $Installer = new PluginInstaller( dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json", 1);
 
 
     /**
