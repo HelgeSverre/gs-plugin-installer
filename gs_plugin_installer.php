@@ -205,6 +205,7 @@ function gs_plugin_installer_main($pluginInstaller)
             <thead>
             <tr>
                 <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
+                <th><?php i18n("gs_plugin_installer/LIST_UPDATED"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_DESCRIPTION"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_INSTALL"); ?></th>
                 <th>&nbsp;</th>
@@ -218,17 +219,27 @@ function gs_plugin_installer_main($pluginInstaller)
                             <b><?php echo $plugin->name ?></b>
                         </a>
                     </td>
+                    <td data-order="<?php echo strtotime($plugin->updated_date) ?>">
+                      <?php 
+                        $str = strftime('%x', strtotime($plugin->updated_date));
+                        // default to en_US notation if no set_locale is set
+                        if (!strlen($str))
+                          $str = strftime('%D', strtotime($plugin->updated_date));
+                         echo $str;
+                      ?>
+                    </td>
                     <td>
                         <div class="description">
                             <?php 
-                              $hasLongDesc = strlen(preg_replace('~ {6,100}~', ' ', $plugin->description)) > 150;
-                              $summary = substr(trim(strip_tags($plugin->description)), 0, 150) . '...';
+                              $stripped = trim(strip_tags(html_entity_decode($plugin->description)));
+                              $hasLongDesc = strlen(preg_replace('~ {6,100}~', ' ', $stripped)) > 150;
+                              $summary = substr($stripped, 0, 150) . '...';
                               
                               if ($hasLongDesc) {
                                   echo $summary;
-                                  echo '<div class="full_description">' . trim(strip_tags($plugin->description)) . '</div>';
+                                  echo '<div class="full_description">' . $stripped . '</div>';
                               } else {
-                                  echo trim(strip_tags($plugin->description));
+                                  echo $stripped;
                               } ?>
                         </div>
                         <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b>
