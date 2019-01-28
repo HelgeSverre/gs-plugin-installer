@@ -51,9 +51,14 @@ $(document).ready(function () {
                 "searchable": false // exclude date from search
             },
             {
-                "targets": [2, 3, 4],
+                "targets": [2],
+                "visible": true, 
+                "orderable": false // exclude "description" column from sorting
+            },
+            {
+                "targets": [4],
                 "visible": true,
-                "searchable": false, // exclude "install" & description column from search
+                "searchable": false, // exclude "install" column from search
                 "orderable": false
             }
         ],

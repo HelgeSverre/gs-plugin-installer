@@ -228,7 +228,7 @@ function gs_plugin_installer_main($pluginInstaller)
                          echo $str;
                       ?>
                     </td>
-                    <td>
+                    <td data-search="<?php echo $plugin->owner ?>">
                         <div class="description">
                             <?php 
                               $stripped = trim(strip_tags(html_entity_decode($plugin->description)));
@@ -249,7 +249,7 @@ function gs_plugin_installer_main($pluginInstaller)
                         — <a href="javascript:void(0)" class="more-info"><?php i18n("gs_plugin_installer/MORE_INFO"); ?></a>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td data-order="<?php echo $pluginInstaller->isPluginInstalled($plugin) ? 'installed' : 'not-installed' ?>">
                         <?php if ($pluginInstaller->isPluginInstalled($plugin)): ?>
                             <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/UNINSTALL") ?></a>
                         <?php else: ?>
