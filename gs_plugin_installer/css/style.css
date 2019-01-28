@@ -33,6 +33,21 @@
     text-shadow: 1px 1px 0px rgba(0, 0, 0, .2);
 }
 
+/* ensure correct sort icon display compat between dataTables & GS */
+#plugin_table th.sorting_asc {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_asc.png) no-repeat center right !important;
+}
+#plugin_table th.sorting_desc {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_desc.png) no-repeat center right !important;
+}
+#plugin_table th.sorting {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_both.png) no-repeat center right !important;
+}
+/* align dataTables th padding with those of td's in body */
+table.dataTable thead th, table.dataTable thead td {
+    padding: 8px 18px 8px 10px;
+}
+
 .full_description { display: none;}
 .fancybox-inner img {
   max-width: 100%;
