@@ -3,6 +3,12 @@
 // No direct access
 defined('IN_GS') or die('Cannot load plugin directly.');
 
+// Configure at preference:
+$config = array(
+	"refresh_cache" => 1, // how many days before refreshing the plugin cache
+	"cache_file_location" => dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json" // output file for plugin cache
+);
+
 
 /**
  * Only used for development
@@ -82,6 +88,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
  * Function responsible for initializing the plugin
  */
 function gs_plugin_installer_init() {
+    global $config;
 
     /**
      *  Import localization files, default to english
@@ -91,7 +98,7 @@ function gs_plugin_installer_init() {
     /**
      * Initialize our PluginInstaller object
      **********************************************************************/
-    $Installer = new PluginInstaller( dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json", 1);
+    $Installer = new PluginInstaller($config['cache_file_location'], $config['refresh_cache']);
 
 
     /**
