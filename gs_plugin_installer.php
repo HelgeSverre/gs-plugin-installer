@@ -30,7 +30,7 @@ require_once($thisfile . "/PluginInstaller.class.php");
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.4.8',
+    '1.5',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -51,7 +51,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
      **********************************************************************/
     register_script('datatables_js', '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js', '1.0');
     register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
-    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.8.0');
+    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.9.0');
 
 
     /**
