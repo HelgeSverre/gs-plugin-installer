@@ -49,7 +49,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
     /**
      *  Register scripts
      **********************************************************************/
-    register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+    register_script('datatables_js', '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js', '1.0');
     register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
     register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.8.0');
 
@@ -57,7 +57,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
     /**
      *  Register the styles
      **********************************************************************/
-    register_style('datatables_css', '//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+    register_style('datatables_css', '//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css', '1.0', 'screen');
     register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1', 'screen');
 
 
@@ -225,7 +225,7 @@ function gs_plugin_installer_main($pluginInstaller)
                               $summary = substr(trim(strip_tags($plugin->description)), 0, 150) . '...';
                               
                               if ($hasLongDesc) {
-                                  echo $summary;;
+                                  echo $summary;
                                   echo '<div class="full_description">' . trim(strip_tags($plugin->description)) . '</div>';
                               } else {
                                   echo trim(strip_tags($plugin->description));

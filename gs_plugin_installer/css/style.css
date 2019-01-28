@@ -46,7 +46,10 @@
   font-size: 16px;
   color: #CF3805;
 }
-.fancybox-inner pre, .fancybox-inner ul, .fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
+.fancybox-inner p {
+  line-height: 20px;
+}
+.fancybox-inner p, .fancybox-inner pre, .fancybox-inner ul, .fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
   margin: 10px 0;
 }
 .fancybox-inner a:link, .fancybox-inner a:visited {color: #415A66; text-decoration:underline;}
