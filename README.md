@@ -37,7 +37,7 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 - Uninstalling one or multiple plugins
 - Order/Sort plugins by name, author and whether or not its installed or not.
 - Search for plugins by name, author and it's installation status
-- Supports localization, currently has English and Norwegian by default!
+- Supports localization, available in: English, French, German, Spanish, Dutch and Norwegian
 
 ### Planned Features and TODOs
 
@@ -45,8 +45,6 @@ The jQuery plugin [DataTables](http://datatables.net/) is used to display, searc
 - Improve the caching system.
 - Refactor the script to be more object oriented and structured.
 - Add more flexibility through plugin settings so users can control the behaviour of the script and caching functionality.
-- "Last Updated" ordering
-
 
 ### Reporting bugs
 

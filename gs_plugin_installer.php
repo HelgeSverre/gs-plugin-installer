@@ -3,6 +3,12 @@
 // No direct access
 defined('IN_GS') or die('Cannot load plugin directly.');
 
+// Configure at preference:
+$config = array(
+	"refresh_cache" => 1, // how many days before refreshing the plugin cache
+	"cache_file_location" => dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json" // output file for plugin cache
+);
+
 
 /**
  * Only used for development
@@ -30,7 +36,7 @@ require_once($thisfile . "/PluginInstaller.class.php");
 register_plugin(
     $thisfile,
     'GS Plugin Installer',
-    '1.4.8',
+    '1.5',
     'Helge Sverre',
     'https://helgesverre.com/',
     'Let\'s you browse, install and uninstall plugins from your administration area.',
@@ -49,15 +55,15 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
     /**
      *  Register scripts
      **********************************************************************/
-    register_script('datatables_js', '//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js', '1.0');
+    register_script('datatables_js', '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js', '1.0');
     register_script('gs_plugin_installer_js', $SITEURL . 'plugins/gs_plugin_installer/js/script.js', '0.1');
-    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.8.0');
+    register_script('showdown_js', $SITEURL . 'plugins/gs_plugin_installer/js/showdown.min.js', '1.9.0');
 
 
     /**
      *  Register the styles
      **********************************************************************/
-    register_style('datatables_css', '//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css', '1.0', 'screen');
+    register_style('datatables_css', '//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css', '1.0', 'screen');
     register_style('gs_plugin_installer_css', $SITEURL . 'plugins/gs_plugin_installer/css/style.css', '0.1', 'screen');
 
 
@@ -82,6 +88,7 @@ if (isset($_GET['id']) && $_GET['id'] === $thisfile) {
  * Function responsible for initializing the plugin
  */
 function gs_plugin_installer_init() {
+    global $config;
 
     /**
      *  Import localization files, default to english
@@ -91,7 +98,7 @@ function gs_plugin_installer_init() {
     /**
      * Initialize our PluginInstaller object
      **********************************************************************/
-    $Installer = new PluginInstaller( dirname(__FILE__) . "/gs_plugin_installer/plugin_cache.json", 1);
+    $Installer = new PluginInstaller($config['cache_file_location'], $config['refresh_cache']);
 
 
     /**
@@ -205,6 +212,7 @@ function gs_plugin_installer_main($pluginInstaller)
             <thead>
             <tr>
                 <th><?php i18n("gs_plugin_installer/LIST_PLUGIN"); ?></th>
+                <th><?php i18n("gs_plugin_installer/LIST_UPDATED"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_DESCRIPTION"); ?></th>
                 <th><?php i18n("gs_plugin_installer/LIST_INSTALL"); ?></th>
                 <th>&nbsp;</th>
@@ -218,17 +226,27 @@ function gs_plugin_installer_main($pluginInstaller)
                             <b><?php echo $plugin->name ?></b>
                         </a>
                     </td>
-                    <td>
+                    <td data-order="<?php echo strtotime($plugin->updated_date) ?>">
+                      <?php 
+                        $str = strftime('%x', strtotime($plugin->updated_date));
+                        // default to en_US notation if no set_locale is set
+                        if (!strlen($str))
+                          $str = strftime('%D', strtotime($plugin->updated_date));
+                         echo $str;
+                      ?>
+                    </td>
+                    <td data-search="<?php echo $plugin->owner ?>">
                         <div class="description">
                             <?php 
-                              $hasLongDesc = strlen(preg_replace('~ {6,100}~', ' ', $plugin->description)) > 150;
-                              $summary = substr(trim(strip_tags($plugin->description)), 0, 150) . '...';
+                              $stripped = trim(strip_tags(html_entity_decode($plugin->description)));
+                              $hasLongDesc = strlen(preg_replace('~ {6,100}~', ' ', $stripped)) > 150;
+                              $summary = substr($stripped, 0, 150) . '...';
                               
                               if ($hasLongDesc) {
-                                  echo $summary;;
-                                  echo '<div class="full_description">' . trim(strip_tags($plugin->description)) . '</div>';
+                                  echo $summary;
+                                  echo '<div class="full_description">' . $stripped . '</div>';
                               } else {
-                                  echo trim(strip_tags($plugin->description));
+                                  echo $stripped;
                               } ?>
                         </div>
                         <b><?php i18n("gs_plugin_installer/VERSION"); ?> <?php echo $plugin->version ?></b>
@@ -238,7 +256,7 @@ function gs_plugin_installer_main($pluginInstaller)
                         — <a href="javascript:void(0)" class="more-info"><?php i18n("gs_plugin_installer/MORE_INFO"); ?></a>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td data-order="<?php echo $pluginInstaller->isPluginInstalled($plugin) ? 'installed' : 'not-installed' ?>">
                         <?php if ($pluginInstaller->isPluginInstalled($plugin)): ?>
                             <a class="cancel" href="load.php?id=gs_plugin_installer&uninstall=1&plugins=<?php echo $plugin->id ?>"><?php i18n("gs_plugin_installer/UNINSTALL") ?></a>
                         <?php else: ?>

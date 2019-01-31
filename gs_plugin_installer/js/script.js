@@ -48,19 +48,18 @@ $(document).ready(function () {
             {
                 "targets": [1],
                 "visible": true,
-                "searchable": false // exclude plugin description column from search
+                "searchable": false // exclude date from search
             },
             {
                 "targets": [2],
-                "visible": true,
-                "searchable": false, // exclude "install" column from search
-                "sortable": false
+                "visible": true, 
+                "orderable": false // exclude "description" column from sorting
             },
             {
-                "targets": [3],
+                "targets": [4],
                 "visible": true,
-                "searchable": false, // checkbox
-                "sortable": false
+                "searchable": false, // exclude "install" column from search
+                "orderable": false
             }
         ],
         initComplete: function() {

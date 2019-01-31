@@ -33,6 +33,21 @@
     text-shadow: 1px 1px 0px rgba(0, 0, 0, .2);
 }
 
+/* ensure correct sort icon display compat between dataTables & GS */
+#plugin_table th.sorting_asc {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_asc.png) no-repeat center right !important;
+}
+#plugin_table th.sorting_desc {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_desc.png) no-repeat center right !important;
+}
+#plugin_table th.sorting {
+  background: #FFF url(http://cdn.datatables.net/1.10.19/images/sort_both.png) no-repeat center right !important;
+}
+/* align dataTables th padding with those of td's in body */
+table.dataTable thead th, table.dataTable thead td {
+    padding: 8px 18px 8px 10px;
+}
+
 .full_description { display: none;}
 .fancybox-inner img {
   max-width: 100%;
@@ -46,7 +61,10 @@
   font-size: 16px;
   color: #CF3805;
 }
-.fancybox-inner pre, .fancybox-inner ul, .fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
+.fancybox-inner p {
+  line-height: 20px;
+}
+.fancybox-inner p, .fancybox-inner pre, .fancybox-inner ul, .fancybox-inner h4, .fancybox-inner h5, .fancybox-inner h6 {
   margin: 10px 0;
 }
 .fancybox-inner a:link, .fancybox-inner a:visited {color: #415A66; text-decoration:underline;}
